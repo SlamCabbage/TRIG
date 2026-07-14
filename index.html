@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TRIG: Trajectory-Rig Decoupled Metric Geometry Learning</title>
+  <meta name="description" content="TRIG: A trajectory-rig decoupled framework for metric geometry learning in multi-camera autonomous driving. State-of-the-art on five benchmarks for pose estimation, depth prediction, and 3D reconstruction.">
+  <meta name="keywords" content="TRIG, autonomous driving, multi-camera, 3D reconstruction, depth estimation, pose estimation, VGGT, metric geometry">
+
+  <meta property="og:title" content="TRIG: Trajectory-Rig Decoupled Metric Geometry Learning">
+  <meta property="og:description" content="A trajectory-rig decoupled framework achieving SOTA performance on five autonomous driving benchmarks for metric depth, 3D reconstruction, and ego-pose estimation.">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<button id="scrollTopBtn" class="scroll-top" title="Scroll to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<main>
+<!-- ====== Hero ====== -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">TRIG: Trajectory-Rig Decoupled Metric Geometry Learning</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Lizhou Liao<sup>1,*,†</sup></span>
+            <span class="author-block">Wentao Xu<sup>1,2,†</sup></span>
+            <span class="author-block">Handong Wang<sup>1</sup></span>
+            <span class="author-block">Lirong Yang<sup>1,‡</sup></span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Shuai Yang<sup>1</sup></span>
+            <span class="author-block">Weiwei Liu<sup>1</sup></span>
+            <span class="author-block">Chang Huang<sup>1</sup></span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Carizon</span>
+            <span class="author-block" style="margin-left: 1rem;"><sup>2</sup>ShanghaiTech University</span>
+          </div>
+          <div class="is-size-5 publication-authors" style="margin-top: 1rem;">
+            <span class="author-block" style="color: var(--text-secondary); font-size: 0.9rem;">AAAI 2027</span>
+          </div>
+          <div class="eql-cntrb" style="margin-top: 0.5rem;">
+            <small><sup>†</sup>Equal contribution &ensp; <sup>*</sup>Corresponding author &ensp; <sup>‡</sup>Project leader</small>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2607.05801" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2607.05801" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Teaser / Key Results ====== -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/weighted_rank_radar.png" alt="TRIG radar chart: #1 across five benchmarks" class="center-image" style="max-width: 85%; height: auto;">
+      <p class="center-caption" style="margin-top: 0.5rem;">Radar chart of method rankings across five benchmarks. TRIG achieves top-1 average rank across all evaluated metrics.</p>
+      <br>
+      <p style="text-align: center; max-width: 720px; margin: 0 auto;">
+        TRIG is a metric geometry perception framework for multi-camera autonomous driving. It explicitly decouples time-varying ego trajectories from static camera-rig configurations, enabling separate modeling of motion dynamics and camera topology. On five autonomous driving benchmarks, TRIG achieves state-of-the-art results in pose estimation, metric depth prediction, and 3D reconstruction.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Abstract ====== -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Vision-centric autonomous driving requires accurate metric geometry and ego-motion estimation from synchronized multi-camera observations. Recent visual geometry models show strong performance in pose estimation, depth prediction, and 3D reconstruction, but are not tailored to rigid multi-camera driving systems. They often encode camera poses as entangled representations, in which time-varying ego-motion and static camera-rig geometry are jointly modeled, limiting the utilization of vehicle-side geometric priors.
+          </p>
+          <p>
+            We propose <strong>Trajectory-Rig Decoupled Metric Geometry Learning (TRIG)</strong>, a geometry perception framework for autonomous driving. TRIG factorizes camera poses into ego-trajectory and camera-rig components, enabling separate modeling of ego-motion and static multi-camera topology. We introduce decoupled pose encoding and supervision, which separately constrain trajectory evolution and rig geometry for metric-consistent learning. Moreover, Sparse Temporal&ndash;Spatial Attention separates cross-camera interaction from temporal aggregation, reducing global attention cost while preserving geometric reasoning. Experiments on five autonomous driving benchmarks show that TRIG achieves state-of-the-art performance in pose estimation, metric depth prediction, and 3D reconstruction.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Method Overview ====== -->
+<section class="section hero is-small">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content">
+          <h2 class="title is-3">Method Overview</h2>
+          <img src="static/images/pipeline.png" alt="TRIG framework overview" class="center-image" style="max-width: 100%; height: auto;">
+          <p class="center-caption">Overview of TRIG. Given synchronized multi-camera images, TRIG decouples pose information into static rig priors and time-varying trajectory priors. Image tokens are fused with these priors through sparse Temporal&ndash;Spatial Attention. Rig Blocks are sparsely inserted at layers 0, 4, 11, 17, and 23 to inject cross-camera rig constraints, while Traj Blocks capture temporal motion across frames.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Key Insight: Pose Decoupling ====== -->
+<section class="section hero is-small is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content">
+          <h2 class="title is-3">Trajectory-Rig Decoupling</h2>
+
+          <p><strong>Decoupled Pose Encoding.</strong> TRIG factorizes multi-camera poses into two complementary components:</p>
+
+          <p style="text-align: center; margin: 1rem 0;">
+            \(P_{w \leftarrow c}^{t} = P_{w \leftarrow \mathrm{ego}}^{t} \, P_{\mathrm{ego} \leftarrow c}^{c}\)
+          </p>
+
+          <p>where \(P_{w \leftarrow \mathrm{ego}}^{t}\) is the ego-vehicle pose at time \(t\), and \(P_{\mathrm{ego} \leftarrow c}^{c}\) is the fixed camera extrinsics. The trajectory embedding \(z_{\mathrm{traj}}^{t} = \mathrm{MLP}_{\mathrm{traj}}(P^{t,0})\) captures time-varying ego-motion, while the rig embedding \(z_{\mathrm{rig}}^{c} = \mathrm{MLP}_{\mathrm{rig}}(P^{0,c})\) encodes static camera layout. The final geometry-aware embedding is composed additively: \(z_{\mathrm{geo}}^{t,c} = z_{\mathrm{traj}}^{t} + z_{\mathrm{rig}}^{c}\).</p>
+
+          <p><strong>Sparse Temporal&ndash;Spatial Attention (STSA).</strong> Instead of applying dense self-attention over all tokens, TRIG factorizes interactions into three structured patterns:</p>
+          <ul>
+            <li><strong>Frame Attention</strong> &mdash; refines local image tokens independently per camera</li>
+            <li><strong>Global Attention</strong> &mdash; enables cross-camera communication at sparse layers</li>
+            <li><strong>Temporal Attention</strong> &mdash; aggregates motion cues along each camera stream</li>
+          </ul>
+          <p>These compose into two blocks: the <strong>Rig Block</strong> (Frame + Global) injects cross-camera constraints at layers \(\{0,4,11,17,23\}\), while the <strong>Traj Block</strong> (Frame + Temporal) runs at every layer for continuous temporal modeling. This sparse design achieves up to 1.72&times; speedup over VGGT-style attention.</p>
+
+          <p><strong>Decoupled Pose Supervision.</strong> The loss separates relative pose pairs: cross-camera pairs at the same timestamp supervise rig geometry (\(\mathcal{L}_{\mathrm{rig}}\)), while cross-time pairs within the same camera supervise ego-motion (\(\mathcal{L}_{\mathrm{traj}}\)). This explicitly isolates temporal trajectory constraints from spatial rig constraints during training.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Results: 3D Reconstruction ====== -->
+<section class="section hero is-small">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content">
+          <h2 class="title is-3">Results</h2>
+          <p>We evaluate TRIG on <strong>five large-scale autonomous driving benchmarks</strong>: KITTI, NuScenes, Waymo, OpenScene, and DDAD. TRIG predicts metric scale directly and requires <strong>no post-hoc Sim(3) alignment</strong>.</p>
+
+          <h3 class="title is-4">3D Reconstruction</h3>
+          <div style="overflow-x: auto;">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Metric</th>
+                <th>KITTI<br>Acc↓</th><th>KITTI<br>Comp↓</th>
+                <th>NuScenes<br>Acc↓</th><th>NuScenes<br>Comp↓</th>
+                <th>Waymo<br>Acc↓</th><th>Waymo<br>Comp↓</th>
+                <th>OpenScene<br>Acc↓</th><th>OpenScene<br>Comp↓</th>
+                <th>DDAD<br>Acc↓</th><th>DDAD<br>Comp↓</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="method-col">OmniVGGT</td><td>✗</td><td>1.111</td><td>1.116</td><td>1.310</td><td>1.703</td><td>1.443</td><td>1.423</td><td>2.704</td><td>3.598</td><td>2.535</td><td>4.317</td></tr>
+              <tr><td class="method-col">CUT3R</td><td>✗</td><td>0.965</td><td>2.050</td><td>2.054</td><td>2.603</td><td>3.391</td><td>4.216</td><td>1.864</td><td>2.258</td><td>2.774</td><td>4.677</td></tr>
+              <tr><td class="method-col">VGGT</td><td>✗</td><td>1.154</td><td>1.294</td><td>1.300</td><td>1.498</td><td>1.641</td><td>2.053</td><td>1.422</td><td>1.496</td><td>1.741</td><td>2.473</td></tr>
+              <tr><td class="method-col">MapAnything</td><td>✓</td><td>1.880</td><td><span class="second">1.014</span></td><td>4.499</td><td>4.886</td><td>10.205</td><td>8.494</td><td>3.353</td><td>4.303</td><td>8.015</td><td>8.493</td></tr>
+              <tr><td class="method-col">StreamVGGT</td><td>✗</td><td>3.421</td><td>2.196</td><td>2.588</td><td>2.414</td><td>3.630</td><td>3.275</td><td>2.304</td><td>2.098</td><td>2.717</td><td>2.788</td></tr>
+              <tr><td class="method-col">Driv3R</td><td>✗</td><td>0.864</td><td>1.083</td><td>0.742</td><td>1.345</td><td><span class="second">0.800</span></td><td><span class="second">1.311</span></td><td>0.884</td><td>1.693</td><td>0.950</td><td>1.259</td></tr>
+              <tr><td class="method-col">DVGT</td><td>✓</td><td><span class="second">0.846</span></td><td>1.468</td><td><span class="second">0.457</span></td><td><span class="second">0.494</span></td><td>1.714</td><td>2.216</td><td><span class="second">0.402</span></td><td><span class="second">0.481</span></td><td><span class="second">0.751</span></td><td><span class="second">1.009</span></td></tr>
+              <tr class="highlight"><td class="method-col"><strong>TRIG (Ours)</strong></td><td>✓</td><td><span class="best">0.333</span></td><td><span class="best">0.351</span></td><td><span class="best">0.314</span></td><td><span class="best">0.361</span></td><td><span class="best">0.509</span></td><td><span class="best">1.192</span></td><td><span class="best">0.380</span></td><td><span class="best">0.434</span></td><td><span class="best">0.587</span></td><td><span class="best">0.842</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+          <p class="center-caption">3D reconstruction results. ✓ = predicts metric scale directly; ✗ = requires post-hoc Sim(3) alignment. <strong>Bold</strong> = best, <u>underline</u> = second best.</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Results: Depth + Pose ====== -->
+<section class="section hero is-small is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content">
+
+          <h3 class="title is-4">Metric Depth Estimation</h3>
+          <div style="overflow-x: auto;">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>KITTI<br>AbsRel↓</th><th>KITTI<br>δ₁.₂₅↑</th>
+                <th>NuScenes<br>AbsRel↓</th><th>NuScenes<br>δ₁.₂₅↑</th>
+                <th>Waymo<br>AbsRel↓</th><th>Waymo<br>δ₁.₂₅↑</th>
+                <th>OpenScene<br>AbsRel↓</th><th>OpenScene<br>δ₁.₂₅↑</th>
+                <th>DDAD<br>AbsRel↓</th><th>DDAD<br>δ₁.₂₅↑</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="method-col">OmniVGGT</td><td><span class="second">0.067</span></td><td><span class="second">0.949</span></td><td>0.175</td><td>0.440</td><td><span class="second">0.096</span></td><td>0.737</td><td>0.304</td><td>0.655</td><td>0.225</td><td>0.591</td></tr>
+              <tr><td class="method-col">CUT3R</td><td>0.217</td><td>0.659</td><td>0.332</td><td>0.547</td><td>0.291</td><td>0.562</td><td>0.278</td><td>0.593</td><td>0.870</td><td>0.315</td></tr>
+              <tr><td class="method-col">VGGT</td><td>0.158</td><td>0.801</td><td>0.243</td><td>0.729</td><td>0.176</td><td>0.811</td><td>0.241</td><td>0.719</td><td>0.613</td><td>0.476</td></tr>
+              <tr><td class="method-col">MapAnything</td><td>0.188</td><td>0.725</td><td>0.568</td><td>0.269</td><td>0.507</td><td>0.211</td><td>0.486</td><td>0.240</td><td>1.971</td><td>0.195</td></tr>
+              <tr><td class="method-col">StreamVGGT</td><td>0.362</td><td>0.469</td><td>0.412</td><td>0.540</td><td>0.339</td><td>0.584</td><td>0.319</td><td>0.607</td><td>0.838</td><td>0.415</td></tr>
+              <tr><td class="method-col">Driv3R</td><td>0.164</td><td>0.784</td><td>0.189</td><td>0.721</td><td>0.168</td><td>0.770</td><td>0.188</td><td>0.740</td><td>0.185</td><td>0.740</td></tr>
+              <tr><td class="method-col">DVGT</td><td>0.136</td><td>0.849</td><td><span class="second">0.069</span></td><td><span class="second">0.953</span></td><td>0.106</td><td><span class="best">0.921</span></td><td><span class="second">0.049</span></td><td><span class="second">0.971</span></td><td><span class="second">0.152</span></td><td><span class="second">0.837</span></td></tr>
+              <tr class="highlight"><td class="method-col"><strong>TRIG (Ours)</strong></td><td><span class="best">0.046</span></td><td><span class="best">0.967</span></td><td><span class="best">0.051</span></td><td><span class="best">0.974</span></td><td><span class="best">0.094</span></td><td><span class="second">0.889</span></td><td><span class="best">0.041</span></td><td><span class="best">0.977</span></td><td><span class="best">0.109</span></td><td><span class="best">0.903</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+
+          <h3 class="title is-4" style="margin-top: 2rem;">Ego-Pose Estimation</h3>
+          <div style="overflow-x: auto;">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>KITTI<br>AUC@30°↑</th><th>NuScenes<br>AUC@30°↑</th><th>Waymo<br>AUC@30°↑</th><th>OpenScene<br>AUC@30°↑</th><th>DDAD<br>AUC@30°↑</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="method-col">OmniVGGT</td><td>88.9</td><td>38.5</td><td>44.7</td><td>33.9</td><td>34.5</td></tr>
+              <tr><td class="method-col">CUT3R</td><td>51.8</td><td>43.5</td><td>50.1</td><td>34.7</td><td>48.6</td></tr>
+              <tr><td class="method-col">VGGT</td><td><span class="second">96.9</span></td><td><span class="second">87.8</span></td><td><span class="second">87.7</span></td><td>66.3</td><td>92.8</td></tr>
+              <tr><td class="method-col">MapAnything</td><td>90.6</td><td>85.0</td><td>82.8</td><td>65.6</td><td>87.0</td></tr>
+              <tr><td class="method-col">StreamVGGT</td><td>95.8</td><td>86.2</td><td>85.6</td><td><span class="second">74.1</span></td><td>91.9</td></tr>
+              <tr><td class="method-col">DVGT</td><td>87.6</td><td>86.5</td><td>86.4</td><td><span class="best">74.7</span></td><td><span class="second">95.1</span></td></tr>
+              <tr class="highlight"><td class="method-col"><strong>TRIG (Ours)</strong></td><td><span class="best">99.1</span></td><td><span class="best">96.6</span></td><td><span class="best">97.7</span></td><td>69.5</td><td><span class="best">97.4</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Qualitative Results ====== -->
+<section class="section hero is-small">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content">
+          <h2 class="title is-3">Qualitative Comparison</h2>
+          <div style="position: relative; max-width: 94%; margin: 0 auto;">
+            <img src="static/images/qualitative_results.png" alt="Qualitative 3D reconstruction comparison: TRIG vs DVGT on KITTI and DDAD" style="width: 100%; height: auto; display: block;">
+
+            <!-- Column labels: Inputs | DVGT | TRIG (Ours) -->
+            <span style="position: absolute; left: 10%; top: 0; transform: translate(-50%, -120%);
+              font-weight: 700; font-size: 0.9rem; color: var(--text-primary); white-space: nowrap;">Inputs</span>
+            <span style="position: absolute; left: 40%; top: 0; transform: translate(-50%, -120%);
+              font-weight: 700; font-size: 0.9rem; color: var(--text-primary); white-space: nowrap;">DVGT</span>
+            <span style="position: absolute; left: 80%; top: 0; transform: translate(-50%, -120%);
+              font-weight: 700; font-size: 0.9rem; color: var(--text-primary); white-space: nowrap;">TRIG (Ours)</span>
+
+            <!-- Row labels: KITTI | DDAD -->
+            <span style="position: absolute; left: -2%; top: 75%; transform: translate(-100%, -50%);
+              font-weight: 700; font-size: 0.9rem; color: var(--text-primary); white-space: nowrap;">KITTI</span>
+            <span style="position: absolute; left: -2%; top: 25%; transform: translate(-100%, -50%);
+              font-weight: 700; font-size: 0.9rem; color: var(--text-primary); white-space: nowrap;">DDAD</span>
+          </div>
+          <p class="center-caption">Qualitative comparison of 3D reconstruction. TRIG produces sharper geometry, cleaner object boundaries, and more consistent large-scale scene structure than DVGT across KITTI (top) and DDAD (bottom) driving scenes.
+          <!-- ponytail: tikz labels stripped from paper tex, just plain caption -->
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Supplementary: Real-World Reconstruction ====== -->
+<section class="section hero is-small">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content">
+          <h2 class="title is-3">Supplementary: Real-World Reconstruction</h2>
+          <p>Reconstruction results on six real-world autonomous driving sequences captured by a 6-camera vehicle, each spanning 30&ndash;40 seconds. All predictions are rescaled by pose-normalization &mdash; <strong>no Sim(3) alignment</strong> &mdash; with final point clouds voxel-filtered for visualization.</p>
+
+          <!-- Row 1 -->
+          <div class="columns is-multiline">
+            <div class="column is-half">
+              <figure style="margin: 0;">
+                <img src="static/images/supplementary_1.png" alt="Scene 1 view A" loading="lazy" style="width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);">
+              </figure>
+            </div>
+            <div class="column is-half">
+              <figure style="margin: 0;">
+                <img src="static/images/supplementary_2.png" alt="Scene 1 view B" loading="lazy" style="width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);">
+              </figure>
+            </div>
+          </div>
+          <p class="center-caption">Scene 1</p>
+          <!-- Row 2 -->
+          <div class="columns is-multiline">
+            <div class="column is-half">
+              <figure style="margin: 0;">
+                <img src="static/images/supplementary_3.png" alt="Scene 2 view A" loading="lazy" style="width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);">
+              </figure>
+            </div>
+            <div class="column is-half">
+              <figure style="margin: 0;">
+                <img src="static/images/supplementary_4.png" alt="Scene 2 view B" loading="lazy" style="width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);">
+              </figure>
+            </div>
+          </div>
+          <p class="center-caption">Scene 2</p>
+          <!-- Row 3 -->
+          <div class="columns is-multiline">
+            <div class="column is-half">
+              <figure style="margin: 0;">
+                <img src="static/images/supplementary_5.png" alt="Scene 3 view A" loading="lazy" style="width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);">
+              </figure>
+            </div>
+            <div class="column is-half">
+              <figure style="margin: 0;">
+                <img src="static/images/supplementary_6.png" alt="Scene 3 view B" loading="lazy" style="width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);">
+              </figure>
+            </div>
+          </div>
+          <p class="center-caption">Scene 3</p>
+
+          <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+            These sequences are drawn from diverse real-world conditions &mdash; urban streets, highways, and suburban areas &mdash; demonstrating TRIG's robust generalization across driving environments, all reconstructed in <strong>metric world coordinates</strong> without any post-hoc alignment.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Ablation & Efficiency ====== -->
+<section class="section hero is-small is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content">
+          <h2 class="title is-3">Ablation Studies</h2>
+          <p>Ablations averaged over DDAD, KITTI, NuScenes, and Waymo. Our <strong>decoupled pose supervision</strong>, <strong>sparse rig block design</strong>, and <strong>decoupled pose prior</strong> each contribute meaningfully to the final performance.</p>
+
+          <div style="overflow-x: auto;">
+          <table class="results-table">
+            <thead>
+              <tr><th>Variant</th><th>Abs Rel ↓</th><th>δ₁.₂₅ ↑</th><th>Acc ↓</th><th>Comp ↓</th><th>AUC@30° ↑</th></tr>
+            </thead>
+            <tbody>
+              <tr class="highlight"><td class="method-col"><strong>Full model (TRIG)</strong></td><td><span class="best">0.069</span></td><td><span class="best">0.943</span></td><td><span class="best">0.411</span></td><td><span class="best">0.577</span></td><td><span class="best">97.69</span></td></tr>
+              <tr><td class="method-col">VGGT pose loss</td><td>0.076</td><td>0.923</td><td>0.447</td><td>0.722</td><td>94.19</td></tr>
+              <tr><td class="method-col">w/o Rig block</td><td>0.163</td><td>0.871</td><td>0.881</td><td>0.908</td><td>96.63</td></tr>
+              <tr><td class="method-col">Frame-only</td><td>0.167</td><td>0.863</td><td>0.907</td><td>0.924</td><td>96.57</td></tr>
+              <tr><td class="method-col">Global-only</td><td>0.155</td><td>0.874</td><td>0.834</td><td>0.880</td><td>96.71</td></tr>
+              <tr><td class="method-col">3-layer rig block</td><td>0.113</td><td>0.901</td><td>0.606</td><td>0.776</td><td>96.70</td></tr>
+              <tr><td class="method-col">OmniVGGT pose prior</td><td>0.090</td><td>0.924</td><td>0.533</td><td>0.691</td><td>96.40</td></tr>
+            </tbody>
+          </table>
+          </div>
+
+          <h3 class="title is-4" style="margin-top: 2rem;">Runtime Efficiency</h3>
+          <p>Measured on NuScenes (NVIDIA L20 GPU). STSA achieves significant speedups over VGGT-style attention on long sequences.</p>
+          <div style="overflow-x: auto;">
+          <table class="results-table">
+            <thead><tr><th>Cams × Steps</th><th>Frames</th><th>TRIG (Ours)</th><th>VGGT-style</th><th>Speedup</th></tr></thead>
+            <tbody>
+              <tr class="highlight"><td class="method-col"><strong>6 × 21</strong></td><td>126</td><td><span class="best">10.65s</span></td><td>15.18s</td><td><span class="best">1.43×</span></td></tr>
+              <tr class="highlight"><td class="method-col"><strong>6 × 40</strong></td><td>240</td><td><span class="best">24.87s</span></td><td>42.86s</td><td><span class="best">1.72×</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+
+          <p style="margin-top: 1.5rem;"><strong>Key findings:</strong> Removing Rig blocks degrades reconstruction Accuracy from 0.411 to 0.881. The decoupled prior (vs. OmniVGGT entangled prior) reduces Completeness error from 0.691 to 0.577. Decoupled pose supervision improves Pose AUC at the strict 5° threshold from 76.33 to 86.92, indicating stronger resistance to pose drift.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== BibTeX ====== -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <div class="bibtex-header">
+      <h2 class="title is-3" style="text-align: left;">BibTeX</h2>
+      <button class="copy-btn" onclick="copyBibTeX()">
+        <i class="fas fa-copy"></i>
+        <span>Copy</span>
+      </button>
+    </div>
+    <pre id="bibtex-code"><code>@InProceedings{trig2027aaai,
+  author    = {Liao, Lizhou and Xu, Wentao and Wang, Handong and Yang, Lirong and Yang, Shuai and Liu, Weiwei and Huang, Chang},
+  title     = {TRIG: Trajectory-Rig Decoupled Metric Geometry Learning},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  year      = {2027},
+}</code></pre>
+  </div>
+</section>
+
+<!-- ====== Footer ====== -->
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p style="text-align: center;">
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>.
+            <br>Source code freely available under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0 License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</main>
+</body>
+</html>
